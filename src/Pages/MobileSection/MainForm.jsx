@@ -36,7 +36,7 @@ const MainForm = ({ handleSubmit }) => {
       </form>
     </div>
   );
-};
+}
 
 export default reduxForm({
   form: "mainForm",

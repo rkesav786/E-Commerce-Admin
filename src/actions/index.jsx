@@ -12,3 +12,18 @@ export const mainPageFormData = (formValues) => {
       console.error("Error:", err);
     });
 };
+
+export const CatalogueData = (formValues, section) => {
+  const apiurl = import.meta.env.VITE_ECOMMERCE_ADMIN_API;
+  console.log("apiurl", apiurl);
+
+  return fetch(`${apiurl}/api/${section}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(formValues),
+  })
+    .then((res) => res.json())
+    .catch((err) => {
+      console.error("Error:", err);
+    });
+};
