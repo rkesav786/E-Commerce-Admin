@@ -1,21 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const UploadImage = ({ input, label }) => {
-  const [imagePreview, setImagePreview] = useState(null); // For previewing the image
-  const [uploadedFile, setUploadedFile] = useState(null); // Local state for the actual file
+  const [imagePreview, setImagePreview] = useState(null);
+  const [uploadedFile, setUploadedFile] = useState(null);
+
+  // Add useEffect to handle initial values from redux-form
+  useEffect(() => {
+    if (input.value && input.value.preview) {
+      setImagePreview(input.value.preview);
+    }
+  }, [input.value]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result); // Set image preview
-        setUploadedFile(file); // Store the actual file (optional for backend uploads)
+        setImagePreview(reader.result);
+        setUploadedFile(file);
         input.onChange({
           name: file.name,
           size: file.size,
           type: file.type,
-          preview: reader.result, // Store only immutable data in Redux Form
+          preview: reader.result,
         });
       };
       reader.readAsDataURL(file);
@@ -23,18 +30,18 @@ const UploadImage = ({ input, label }) => {
   };
 
   const handleDeleteImage = () => {
-    setImagePreview(null); // Clear preview
-    setUploadedFile(null); // Clear file
-    input.onChange(null); // Reset Redux Form value
+    setImagePreview(null);
+    setUploadedFile(null);
+    input.onChange(null);
   };
 
   return (
     <div className="upload-image">
-      <label>{label}</label>
-      {imagePreview ? (
+      <label className="fs-6 fw-bold mb-1"> {label}</label>
+      {imagePreview || (input.value && input.value.preview) ? (
         <div className="image-preview-wrapper">
           <img
-            src={imagePreview}
+            src={imagePreview || input.value.preview}
             alt="Preview"
             className="image-preview"
             style={{ width: "150px", height: "150px", objectFit: "cover" }}
@@ -51,6 +58,7 @@ const UploadImage = ({ input, label }) => {
               Replace Image
               <input
                 type="file"
+                accept="image/*"
                 onChange={handleImageChange}
                 style={{ display: "none" }}
               />
@@ -63,6 +71,7 @@ const UploadImage = ({ input, label }) => {
             Upload Image
             <input
               type="file"
+              accept="image/*"
               onChange={handleImageChange}
               style={{ display: "none" }}
             />

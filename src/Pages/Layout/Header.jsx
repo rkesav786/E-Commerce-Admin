@@ -7,7 +7,7 @@ export const Header = () => {
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
           <a className="navbar-brand" href="#">
-            Navbar
+            Admin
           </a>
           <button
             className="navbar-toggler"
@@ -41,7 +41,7 @@ export const Header = () => {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  Dropdown
+                  Catagory
                 </a>
                 <ul
                   className="dropdown-menu p-3"
@@ -68,6 +68,16 @@ export const Header = () => {
                   <li className="nav-item">
                     <Link to="/fashion-section" className="nav-link active">
                       Fashion Section
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to="/furniture-section" className="nav-link active">
+                      Appliance Section
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to="/fashion-section" className="nav-link active">
+                      Electronics Section
                     </Link>
                   </li>
                 </ul>
