@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 export const Header = () => {
   return (
     <div>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow-lg">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">
-            Admin
+          <a className="navbar-brand fw-bold text-warning" href="#">
+            Admin Dashboard
           </a>
           <button
             className="navbar-toggler"
@@ -23,77 +23,50 @@ export const Header = () => {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <Link to="/home" className="nav-link active">
+                <Link to="/home" className="nav-link text-light">
                   Home Page
                 </Link>
               </li>
-              {/* <li className="nav-item">
-                <Link to="/main" className="nav-link active">
-                  Main Page
+              <li className="nav-item">
+                <Link to="/mobile-section" className="nav-link text-light">
+                  Mobile
                 </Link>
-              </li> */}
-              <li className="nav-item dropdown">
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Catagory
-                </a>
-                <ul
-                  className="dropdown-menu p-3"
-                  aria-labelledby="navbarDropdown"
-                >
-                  <li className="nav-item">
-                    <Link to="/mobile-section" className="nav-link active">
-                      Mobile Section
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link to="/grocery-section" className="nav-link active">
-                      Grocery Section
-                    </Link>
-                  </li>
-                  <li>
-                    <hr className="dropdown-divider" />
-                  </li>
-                  <li className="nav-item">
-                    <Link to="/furniture-section" className="nav-link active">
-                      Furniture Section
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link to="/fashion-section" className="nav-link active">
-                      Fashion Section
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link to="/furniture-section" className="nav-link active">
-                      Appliance Section
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link to="/fashion-section" className="nav-link active">
-                      Electronics Section
-                    </Link>
-                  </li>
-                </ul>
+              </li>
+              <li className="nav-item">
+                <Link to="/grocery-section" className="nav-link text-light">
+                  Grocery
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/furniture-section" className="nav-link text-light">
+                  Furniture
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/fashion-section" className="nav-link text-light">
+                  Fashion
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/appliance-section" className="nav-link text-light">
+                  Appliance
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/electronics-section" className="nav-link text-light">
+                  Electronics
+                </Link>
               </li>
             </ul>
-            <form className="d-flex">
-              <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
+            <div className="d-flex align-items-center">
+              <img
+                className="img-fluid rounded-circle me-2"
+                src="vetrikart_logo.png"
+                alt="Logo"
+                width={40}
               />
-              <button className="btn btn-outline-success" type="submit">
-                Search
-              </button>
-            </form>
+              <span className="text-white fw-bold">Welcome, Admin</span>
+            </div>
           </div>
         </div>
       </nav>

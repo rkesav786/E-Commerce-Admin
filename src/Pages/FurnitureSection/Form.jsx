@@ -6,7 +6,6 @@ import { validate } from "../../Validators/mobileSectionValidators";
 import { Input } from "../../Component/Input";
 import UploadImage from "../../Component/Upload";
 import { Dropdown } from "../../Component/Dropdown";
-// Inside MobileSection.jsx
 
 const renderHighlightTexts = ({ fields }) => (
   <div className="mt-3">
@@ -152,46 +151,47 @@ const renderItems = ({ fields, meta: { error, submitFailed } }) => (
               name={`${item}.model_name`}
               type="text"
               component={Input}
-              label="Model Name"
+              label="Model Series Name"
             />
             <Field
               name={`${item}.product_color`}
               type="text"
               component={Dropdown}
-              label="Product Color"
+              label="Primary Color"
               options={{
                 blue: "Blue",
                 red: "Red",
                 black: "Black",
                 white: "White",
+                green: "Green",
+                yellow: "Yellow",
+                orange: "Orange",
+                purple: "Purple",
+                pink: "Pink",
+                gray: "Gray",
+                brown: "Brown",
               }}
             />
             <Field
-              name={`${item}.sim_type`}
+              name={`${item}.storage_included`}
               type="text"
               component={Dropdown}
-              label="Sim Type"
-              options={{ dual_sim: "Dual Sim", single_sim: "Single Sim" }}
-            />
-            <Field
-              name={`${item}.hybrid_sim_slot`}
-              type="text"
-              component={Dropdown}
-              label="Hybrid Sim Slot"
+              label="Storage Included"
               options={{ yes: "Yes", no: "No" }}
             />
             <Field
-              name={`${item}.quick_charging`}
+              name={`${item}.with_mattress`}
               type="text"
               component={Dropdown}
-              label="Quick Charging"
-              options={{ yes: "yes", no: "no" }}
+              label="With Mattress"
+              options={{ yes: "Yes", no: "No" }}
             />
             <Field
-              name={`${item}.sar_value`}
+              name={`${item}.bed_size`}
               type="text"
-              component={Input}
-              label="SAR Value"
+              component={Dropdown}
+              label="Bed Size"
+              options={{ Queen: "Queen" }}
             />
           </div>
         </div>
@@ -207,7 +207,12 @@ const renderItems = ({ fields, meta: { error, submitFailed } }) => (
   </div>
 );
 
-const MobileSection = ({ handleSubmit, initialize, pristine, submitting }) => {
+const FurnitureSection = ({
+  handleSubmit,
+  initialize,
+  pristine,
+  submitting,
+}) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -222,7 +227,7 @@ const MobileSection = ({ handleSubmit, initialize, pristine, submitting }) => {
   const fetchSection = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${apiUrl}/api/mobile-section/${id}`);
+      const response = await fetch(`${apiUrl}/api/furniture-section/${id}`);
       const data = await response.json();
 
       if (data.success) {
@@ -239,7 +244,7 @@ const MobileSection = ({ handleSubmit, initialize, pristine, submitting }) => {
 
   const onSubmit = async (values) => {
     try {
-      const response = await fetch(`${apiUrl}/api/mobile-section`, {
+      const response = await fetch(`${apiUrl}/api/furniture-section`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -251,7 +256,7 @@ const MobileSection = ({ handleSubmit, initialize, pristine, submitting }) => {
 
       if (data.success) {
         toast.success(id ? "Updated successfully" : "Created successfully");
-        navigate("/mobile-section");
+        navigate("/furniture-section");
       } else {
         toast.error(data.message);
       }
@@ -265,7 +270,7 @@ const MobileSection = ({ handleSubmit, initialize, pristine, submitting }) => {
   return (
     <div className="container mt-5">
       <h2 className="text-center mb-4">
-        {id ? "Edit Mobile Section" : "Create Mobile Section"}
+        {id ? "Edit Furniture Section" : "Create Furniture Section"}
       </h2>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -273,7 +278,7 @@ const MobileSection = ({ handleSubmit, initialize, pristine, submitting }) => {
           name="section_name"
           type="text"
           component={Input}
-          label="Brand Name"
+          label="Catagory Name"
         />
 
         <FieldArray name="items" component={renderItems} />
@@ -290,7 +295,7 @@ const MobileSection = ({ handleSubmit, initialize, pristine, submitting }) => {
           <button
             type="button"
             className="btn btn-secondary ms-2"
-            onClick={() => navigate("/mobile-section")}
+            onClick={() => navigate("/furniture-section")}
           >
             Cancel
           </button>
@@ -301,6 +306,6 @@ const MobileSection = ({ handleSubmit, initialize, pristine, submitting }) => {
 };
 
 export default reduxForm({
-  form: "mobileSectionForm",
+  form: "furnitureSectionForm",
   validate,
-})(MobileSection);
+})(FurnitureSection);

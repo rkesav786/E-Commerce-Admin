@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const MobileSectionIndex = () => {
+const GrocerySectionIndex = () => {
   const [catalogues, setCatalogues] = useState([]);
   const [loading, setLoading] = useState(true);
   const apiUrl = import.meta.env.VITE_ECOMMERCE_ADMIN_API;
 
   const fetchCatalogues = async () => {
     try {
-      const response = await fetch(`${apiUrl}/api/mobile-section`);
+      const response = await fetch(`${apiUrl}/api/grocery-section`);
       const data = await response.json();
       if (data.success) {
         setCatalogues(data.results);
@@ -28,7 +28,7 @@ const MobileSectionIndex = () => {
       return;
 
     try {
-      const response = await fetch(`${apiUrl}/api/mobile-section/${id}`, {
+      const response = await fetch(`${apiUrl}/api/grocery-section/${id}`, {
         method: "DELETE",
       });
       const data = await response.json();
@@ -53,8 +53,8 @@ const MobileSectionIndex = () => {
   return (
     <div className="container mt-5">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2>Mobile Sections</h2>
-        <Link to="/mobile-section/create" className="btn btn-primary">
+        <h2>Grocery Sections</h2>
+        <Link to="/grocery-section/create" className="btn btn-primary">
           Create New
         </Link>
       </div>
@@ -64,9 +64,9 @@ const MobileSectionIndex = () => {
           <table className="table table-striped">
             <thead>
               <tr>
-                <th>#</th>
-                <th>Section Name</th>
-                <th>Items Count</th>
+                <th>No</th>
+                <th>Catagory Name</th>
+                <th>Catalogue Count</th>
                 <th>Created At</th>
                 <th>Actions</th>
               </tr>
@@ -80,7 +80,7 @@ const MobileSectionIndex = () => {
                   <td>{new Date(catalogue.createdAt).toLocaleDateString()}</td>
                   <td>
                     <Link
-                      to={`/mobile-section/${catalogue._id}`}
+                      to={`/grocery-section/${catalogue._id}`}
                       className="btn btn-sm btn-info me-2"
                     >
                       Edit
@@ -106,4 +106,4 @@ const MobileSectionIndex = () => {
   );
 };
 
-export default MobileSectionIndex;
+export default GrocerySectionIndex;

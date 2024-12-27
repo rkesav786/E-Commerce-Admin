@@ -5,52 +5,51 @@ import { toast } from "react-toastify";
 import { validate } from "../../Validators/mobileSectionValidators";
 import { Input } from "../../Component/Input";
 import UploadImage from "../../Component/Upload";
-// Inside MobileSection.jsx
+import { Dropdown } from "../../Component/Dropdown";
 
-const renderField = ({
-  input: { onChange, value, ...input },
-  label,
-  type,
-  meta: { touched, error },
-}) => {
-  const inputProps =
-    type === "file"
-      ? {
-          onChange: (e) => onChange(e.target.files[0]),
-          type,
-          value: undefined, // Remove value prop for file inputs
-        }
-      : { ...input, type, value };
-
-  return (
-    <div className="mb-3">
-      <label className="form-label">{label}</label>
-      <input {...inputProps} className="form-control" />
-      {touched && error && <span className="text-danger">{error}</span>}
-    </div>
-  );
-};
+const renderOfferTexts = ({ fields }) => (
+  <div className="mt-3">
+    {fields.map((item, index) => (
+      <div key={index} className="card mb-3">
+        <div className="card-body">
+          <div className="d-flex justify-content-between">
+            <h6>Offer #{index + 1}</h6>
+            <button
+              type="button"
+              className="btn btn-danger btn-sm"
+              onClick={() => fields.remove(index)}
+            >
+              Remove
+            </button>
+          </div>
+          <Field
+            name={`${item}.offer_text`}
+            type="text"
+            component={Input}
+            label="Available Offers Text"
+          />
+        </div>
+      </div>
+    ))}
+    <button
+      type="button"
+      className="btn btn-success btn-sm"
+      onClick={() => fields.push({})}
+    >
+      Add Available offer text
+    </button>
+  </div>
+);
 
 const renderItems = ({ fields, meta: { error, submitFailed } }) => (
-  <div>
-    <div className="d-flex justify-content-between align-items-center mb-3">
-      <h4>Items</h4>
-      <button
-        type="button"
-        className="btn btn-success btn-sm"
-        onClick={() => fields.push({})}
-      >
-        Add Item
-      </button>
-    </div>
-
+  <div className="mt-3">
     {submitFailed && error && <span className="text-danger">{error}</span>}
 
     {fields.map((item, index) => (
       <div key={index} className="card mb-3">
         <div className="card-body">
           <div className="d-flex justify-content-between">
-            <h5>Item #{index + 1}</h5>
+            <h5>Catalogue #{index + 1}</h5>
             <button
               type="button"
               className="btn btn-danger btn-sm"
@@ -66,12 +65,12 @@ const renderItems = ({ fields, meta: { error, submitFailed } }) => (
             component={Input}
             label="Name"
           />
-          <Field
+          {/* <Field
             name={`${item}.description`}
             type="text"
             component={Input}
             label="Description"
-          />
+          /> */}
           <Field
             name={`${item}.price`}
             type="number"
@@ -88,7 +87,7 @@ const renderItems = ({ fields, meta: { error, submitFailed } }) => (
             name={`${item}.tag`}
             type="text"
             component={Input}
-            label="Tag"
+            label="Rating"
           />
           <Field
             name={`${item}.image`}
@@ -96,13 +95,84 @@ const renderItems = ({ fields, meta: { error, submitFailed } }) => (
             component={UploadImage}
             label="Image"
           />
+          <h4 className="mt-3">Catalogue Details</h4>
+          <h6 className="mt-3">Available Offers Text</h6>
+          <FieldArray
+            name={`${item}.offer_texts`}
+            component={renderOfferTexts}
+          />
+          <h6 className="mt-3"> Specifications Text</h6>
+          <div>
+            <Field
+              name={`${item}.style_code`}
+              type="text"
+              component={Input}
+              label="Style Code"
+            />
+            <Field
+              name={`${item}.fit`}
+              type="text"
+              component={Dropdown}
+              label="Fit"
+              options={{ regular: "Regular" }}
+            />
+            <Field
+              name={`${item}.color`}
+              type="text"
+              component={Dropdown}
+              label="Color"
+              options={{
+                blue: "Blue",
+                red: "Red",
+                black: "Black",
+                white: "White",
+                green: "Green",
+                yellow: "Yellow",
+                orange: "Orange",
+                purple: "Purple",
+                pink: "Pink",
+                gray: "Gray",
+                brown: "Brown",
+              }}
+            />
+            <Field
+              name={`${item}.sleeve`}
+              type="text"
+              component={Dropdown}
+              label="Sleeve"
+              options={{
+                full_sleeve: "Full Sleeve",
+                half_sleeve: "Half Sleeve",
+              }}
+            />
+            <Field
+              name={`${item}.pattern`}
+              type="text"
+              component={Dropdown}
+              label="Pattern"
+              options={{ checkered: "Checkered", solid: "Solid" }}
+            />
+            <Field
+              name={`${item}.net_quantity`}
+              type="text"
+              component={Input}
+              label="Net Quantity"
+            />
+          </div>
         </div>
       </div>
     ))}
+    <button
+      type="button"
+      className="btn btn-success btn-sm"
+      onClick={() => fields.push({})}
+    >
+      Add Item
+    </button>
   </div>
 );
 
-const MobileSection = ({ handleSubmit, initialize, pristine, submitting }) => {
+const FashionSection = ({ handleSubmit, initialize, pristine, submitting }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -117,7 +187,7 @@ const MobileSection = ({ handleSubmit, initialize, pristine, submitting }) => {
   const fetchSection = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${apiUrl}/api/mobile-section/${id}`);
+      const response = await fetch(`${apiUrl}/api/fashion-section/${id}`);
       const data = await response.json();
 
       if (data.success) {
@@ -134,7 +204,7 @@ const MobileSection = ({ handleSubmit, initialize, pristine, submitting }) => {
 
   const onSubmit = async (values) => {
     try {
-      const response = await fetch(`${apiUrl}/api/mobile-section`, {
+      const response = await fetch(`${apiUrl}/api/fashion-section`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -146,7 +216,7 @@ const MobileSection = ({ handleSubmit, initialize, pristine, submitting }) => {
 
       if (data.success) {
         toast.success(id ? "Updated successfully" : "Created successfully");
-        navigate("/mobile-section");
+        navigate("/fashion-section");
       } else {
         toast.error(data.message);
       }
@@ -160,7 +230,7 @@ const MobileSection = ({ handleSubmit, initialize, pristine, submitting }) => {
   return (
     <div className="container mt-5">
       <h2 className="text-center mb-4">
-        {id ? "Edit Mobile Section" : "Create Mobile Section"}
+        {id ? "Edit Fashion Section" : "Create Fashion Section"}
       </h2>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -168,7 +238,7 @@ const MobileSection = ({ handleSubmit, initialize, pristine, submitting }) => {
           name="section_name"
           type="text"
           component={Input}
-          label="Section Name"
+          label="Catagory Name"
         />
 
         <FieldArray name="items" component={renderItems} />
@@ -185,7 +255,7 @@ const MobileSection = ({ handleSubmit, initialize, pristine, submitting }) => {
           <button
             type="button"
             className="btn btn-secondary ms-2"
-            onClick={() => navigate("/mobile-section")}
+            onClick={() => navigate("/fashion-section")}
           >
             Cancel
           </button>
@@ -196,6 +266,6 @@ const MobileSection = ({ handleSubmit, initialize, pristine, submitting }) => {
 };
 
 export default reduxForm({
-  form: "mobileSectionForm",
+  form: "fashionSectionForm",
   validate,
-})(MobileSection);
+})(FashionSection);

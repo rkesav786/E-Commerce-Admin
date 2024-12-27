@@ -6,41 +6,7 @@ import { validate } from "../../Validators/mobileSectionValidators";
 import { Input } from "../../Component/Input";
 import UploadImage from "../../Component/Upload";
 import { Dropdown } from "../../Component/Dropdown";
-// Inside MobileSection.jsx
-
-const renderHighlightTexts = ({ fields }) => (
-  <div className="mt-3">
-    {fields.map((item, index) => (
-      <div key={index} className="card mb-3">
-        <div className="card-body">
-          <div className="d-flex justify-content-between">
-            <h6>Highlight #{index + 1}</h6>
-            <button
-              type="button"
-              className="btn btn-danger btn-sm"
-              onClick={() => fields.remove(index)}
-            >
-              Remove
-            </button>
-          </div>
-          <Field
-            name={`${item}.highlight_text`}
-            type="text"
-            component={Input}
-            label="Highlight Text"
-          />
-        </div>
-      </div>
-    ))}
-    <button
-      type="button"
-      className="btn btn-success btn-sm"
-      onClick={() => fields.push({})}
-    >
-      Add highlight text
-    </button>
-  </div>
-);
+import { Textarea } from "../../Component/TextArea";
 
 const renderOfferTexts = ({ fields }) => (
   <div className="mt-3">
@@ -136,62 +102,68 @@ const renderItems = ({ fields, meta: { error, submitFailed } }) => (
             name={`${item}.offer_texts`}
             component={renderOfferTexts}
           />
-          <FieldArray
-            name={`${item}.highlight_texts`}
-            component={renderHighlightTexts}
-          />
           <h6 className="mt-3"> Specifications Text</h6>
           <div>
             <Field
-              name={`${item}.model_number`}
+              name={`${item}.brand_name`}
               type="text"
               component={Input}
-              label="Model Number"
+              label="brand Name"
             />
             <Field
-              name={`${item}.model_name`}
+              name={`${item}.quantity`}
               type="text"
               component={Input}
-              label="Model Name"
+              label="Quantity"
             />
             <Field
-              name={`${item}.product_color`}
+              name={`${item}.color`}
               type="text"
               component={Dropdown}
-              label="Product Color"
+              label="Primary Color"
               options={{
                 blue: "Blue",
                 red: "Red",
                 black: "Black",
                 white: "White",
+                green: "Green",
+                yellow: "Yellow",
+                orange: "Orange",
+                purple: "Purple",
+                pink: "Pink",
+                gray: "Gray",
+                brown: "Brown",
               }}
             />
             <Field
-              name={`${item}.sim_type`}
-              type="text"
-              component={Dropdown}
-              label="Sim Type"
-              options={{ dual_sim: "Dual Sim", single_sim: "Single Sim" }}
-            />
-            <Field
-              name={`${item}.hybrid_sim_slot`}
-              type="text"
-              component={Dropdown}
-              label="Hybrid Sim Slot"
-              options={{ yes: "Yes", no: "No" }}
-            />
-            <Field
-              name={`${item}.quick_charging`}
-              type="text"
-              component={Dropdown}
-              label="Quick Charging"
-              options={{ yes: "yes", no: "no" }}
-            />
-            <Field
-              name={`${item}.sar_value`}
+              name={`${item}.maximum_shelf_life`}
               type="text"
               component={Input}
-              label="SAR Value"
+              label="Maximum Shelf Life"
+            />
+            <Field
+              name={`${item}.nutrient_content`}
+              type="text"
+              component={Input}
+              label="Nutrient Content"
+            />
+            <Field
+              name={`${item}.content_type`}
+              type="text"
+              component={Dropdown}
+              label="Content Type"
+              options={{
+                plastic_bottle: "Plastic Bottle",
+                pouch: "Pouch",
+                can: "Can",
+                box: "Box",
+              }}
+            />
+            <Field
+              name={`${item}.description`}
+              type="text"
+              component={Textarea}
+              label="Description"
             />
           </div>
         </div>
@@ -207,7 +179,7 @@ const renderItems = ({ fields, meta: { error, submitFailed } }) => (
   </div>
 );
 
-const MobileSection = ({ handleSubmit, initialize, pristine, submitting }) => {
+const GrocerySection = ({ handleSubmit, initialize, pristine, submitting }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -222,7 +194,7 @@ const MobileSection = ({ handleSubmit, initialize, pristine, submitting }) => {
   const fetchSection = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${apiUrl}/api/mobile-section/${id}`);
+      const response = await fetch(`${apiUrl}/api/grocery-section/${id}`);
       const data = await response.json();
 
       if (data.success) {
@@ -239,7 +211,7 @@ const MobileSection = ({ handleSubmit, initialize, pristine, submitting }) => {
 
   const onSubmit = async (values) => {
     try {
-      const response = await fetch(`${apiUrl}/api/mobile-section`, {
+      const response = await fetch(`${apiUrl}/api/grocery-section`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -251,7 +223,7 @@ const MobileSection = ({ handleSubmit, initialize, pristine, submitting }) => {
 
       if (data.success) {
         toast.success(id ? "Updated successfully" : "Created successfully");
-        navigate("/mobile-section");
+        navigate("/grocery-section");
       } else {
         toast.error(data.message);
       }
@@ -265,7 +237,7 @@ const MobileSection = ({ handleSubmit, initialize, pristine, submitting }) => {
   return (
     <div className="container mt-5">
       <h2 className="text-center mb-4">
-        {id ? "Edit Mobile Section" : "Create Mobile Section"}
+        {id ? "Edit Grocery Section" : "Create Grocery Section"}
       </h2>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -273,7 +245,7 @@ const MobileSection = ({ handleSubmit, initialize, pristine, submitting }) => {
           name="section_name"
           type="text"
           component={Input}
-          label="Brand Name"
+          label="Catagory Name"
         />
 
         <FieldArray name="items" component={renderItems} />
@@ -290,7 +262,7 @@ const MobileSection = ({ handleSubmit, initialize, pristine, submitting }) => {
           <button
             type="button"
             className="btn btn-secondary ms-2"
-            onClick={() => navigate("/mobile-section")}
+            onClick={() => navigate("/grocery-section")}
           >
             Cancel
           </button>
@@ -301,6 +273,6 @@ const MobileSection = ({ handleSubmit, initialize, pristine, submitting }) => {
 };
 
 export default reduxForm({
-  form: "mobileSectionForm",
+  form: "grocerySectionForm",
   validate,
-})(MobileSection);
+})(GrocerySection);
