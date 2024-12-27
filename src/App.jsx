@@ -15,11 +15,18 @@ import ApplianceSectionIndex from "./Pages/ApplianceSection";
 import ApplianceSection from "./Pages/ApplianceSection/Form";
 import ElectronicsSectionIndex from "./Pages/ElectronicsSection";
 import ElectronicsSection from "./Pages/ElectronicsSection/Form";
+import HomePageIndex from "./Pages/HomePage";
+import HomePageForm from "./Pages/HomePage/Form";
 
 const App = () => (
   <BrowserRouter>
     <Header />
     <Routes>
+      {/* home page */}
+      <Route path="home-page" element={<HomePageIndex />} />
+      <Route path="home-page/create" element={<HomePageForm />} />
+      <Route path="home-page/:id" element={<HomePageForm />} />
+
       {/* mobile section */}
       <Route path="mobile-section" element={<MobileSectionIndex />} />
       <Route path="mobile-section/create" element={<MobileSectionForm />} />

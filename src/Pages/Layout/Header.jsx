@@ -6,7 +6,7 @@ export const Header = () => {
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow-lg">
         <div className="container-fluid">
-          <a className="navbar-brand fw-bold text-warning" href="#">
+          <a className="navbar-brand fw-bold text-warning" href="">
             Admin Dashboard
           </a>
           <button
@@ -23,7 +23,7 @@ export const Header = () => {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <Link to="/home" className="nav-link text-light">
+                <Link to="/home-page" className="nav-link text-light">
                   Home Page
                 </Link>
               </li>
@@ -61,7 +61,7 @@ export const Header = () => {
             <div className="d-flex align-items-center">
               <img
                 className="img-fluid rounded-circle me-2"
-                src="vetrikart_logo.png"
+                src="vetrikart_logo_admin.png"
                 alt="Logo"
                 width={40}
               />
